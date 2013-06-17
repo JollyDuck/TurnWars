@@ -1,7 +1,12 @@
+package code;
 import javax.swing.*;
 
 public class GameFrame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	GameTable gTable;
 
 	public GameFrame( String title ) {

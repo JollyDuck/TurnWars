@@ -1,3 +1,4 @@
+package code;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -5,6 +6,10 @@ import java.awt.event.*;
 public class GameTable extends JPanel implements ActionListener, ItemListener,
 		MouseListener, MouseMotionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	GameBoard gBoard;
 	JTextArea tArea;
 	JButton testB;
@@ -65,7 +70,6 @@ public class GameTable extends JPanel implements ActionListener, ItemListener,
 		int mouseY = e.getY();
 		tArea.setText(tArea.getText() + "\n" + mouseX + " " + mouseY);
 		tArea.setText(tArea.getText() + " contains " + gBoard.box[mouseX/gBoard.lineSpacing][mouseY/gBoard.lineSpacing]);
-		gBoard.printClickedToBox();
 		repaint();
 	}
 

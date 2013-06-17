@@ -1,12 +1,17 @@
+package code;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class GameBoard extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	int width, height;
 	int lineSpacing;
 	public static char[][] box;
@@ -21,12 +26,9 @@ public class GameBoard extends JPanel {
 		this.width = width;
 		this.height = height;
 		lineSpacing = 30;
-		try {
-			sprites = ImageIO.read(new File("src/miw_sprites.png"));
-			System.out.println("loaded successfuly");
-		} catch (IOException e) {
-			System.out.println("FAIL");
-		}
+		
+		loadImages();
+
 		box = new char[width / lineSpacing][height / lineSpacing];
 		for (int x = 0; x < box.length; x++) {
 			for (int y = 0; y < box[x].length; y++) {
@@ -38,6 +40,21 @@ public class GameBoard extends JPanel {
 		setBackground(Color.WHITE);
 
 	}
+	
+	public void loadImages(){
+		// Start
+		java.net.URL imageURL = GameBoard.class
+				.getResource("/res/miw_sprites.png");
+		if (imageURL != null) {
+			try {
+				sprites = ImageIO.read(imageURL);
+				System.out.println("win");
+			} catch (IOException e) {
+				System.out.println("fail");
+			}
+		}
+		
+	}
 
 	public void paintComponent(Graphics g) {
 		this.g = g;
@@ -47,11 +64,7 @@ public class GameBoard extends JPanel {
 			g.drawLine(0, x, width, x);
 		}
 		g.drawImage(sprites, 50, 50, null);
-		
+
 	}
-	
-	public void printClickedToBox(){
-		g.drawLine(50, 50, 150, 150);
-		
-	}
+
 }
