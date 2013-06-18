@@ -24,4 +24,9 @@ public class Printable {
 		myPosition.x=x;
 		myPosition.y=y;
 	}
+	
+	public void setPosition(int x, int y, int lineSpacing) {
+		myPosition.x = x * lineSpacing;
+		myPosition.y = y * lineSpacing;
+	}
 }

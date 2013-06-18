@@ -2,8 +2,6 @@ package code;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
 
 public class GameBoard extends JPanel {
 
@@ -14,14 +12,16 @@ public class GameBoard extends JPanel {
 	int width, height;
 	int lineSpacing;
 	public static Tile[][] tiles;
+	public static Moveable[][] units;
 	public static final char X = 'X';
 	public static final char O = 'O';
 	public static final char NONE = ' ';
+	public static boolean drawMoveable;
 	Image sprites;
 	ResHandle res;
 	Point topLeft;
-	float[] scales = { 1f, 1f, 1f, 0.5f };
-	float[] offsets = new float[4];
+	Point mousePos;
+	Footman man;
 
 	public GameBoard(int width, int height) {
 
@@ -30,13 +30,17 @@ public class GameBoard extends JPanel {
 		lineSpacing = 32;
 		res = new ResHandle();
 		topLeft = new Point();
+		mousePos = new Point();
+		man = new Footman();
+		drawMoveable = false;
 
 		// box is an array that stores the positions of the units.
 		tiles = new Tile[3200 / lineSpacing][height / lineSpacing];
+		units = new Moveable[3200 / lineSpacing][height / lineSpacing];
+
 		for (int x = 0; x < tiles.length; x++) {
 			for (int y = 0; y < tiles[x].length; y++) {
 				double i = Math.random();
-				System.out.println(i);
 				Tile r;
 				if (i > 0.5) {
 					r = new EmptyTile();
@@ -47,6 +51,10 @@ public class GameBoard extends JPanel {
 				r.myImage = res.imageReturn(r.imageID);
 			}
 		}
+		units[5][5] = man;
+		man.myImage = res.redTank;
+		man.setPosition(5, 5, lineSpacing);
+
 		setPreferredSize(new Dimension(width, height));
 		setBackground(Color.WHITE);
 
@@ -61,6 +69,31 @@ public class GameBoard extends JPanel {
 		for (int x = 0; x < tiles.length; x++) {
 			for (int y = 0; y < tiles[x].length; y++) {
 				tiles[x][y].printMe(g, topLeft);
+			}
+		}
+	}
+
+	private void printMovesLeft(Graphics g, Moveable entity) {
+		int width = entity.currentMove;
+		Tile[][] movesLeft = new Tile[width * 2][width * 2];
+		for (int x = 0; x < width*2; x++) {
+			for (int y = 0; y < width*2; y++) {
+				System.out.println("yuop");
+				MoveLeftTile r = new MoveLeftTile();
+				movesLeft[x][y] = r;
+				r.setMyImage(res.moveBox);
+				r.setPosition(x, y, lineSpacing);
+				if (movesLeft[x][y] != null)
+					movesLeft[x][y].printMe(alphaMe(g), topLeft);
+			}
+		}
+	}
+
+	private void printUnits(Graphics g) {
+		for (int x = 0; x < units.length; x++) {
+			for (int y = 0; y < units[x].length; y++) {
+				if (units[x][y] != null)
+					units[x][y].printMe(g, topLeft);
 			}
 		}
 	}
@@ -83,17 +116,33 @@ public class GameBoard extends JPanel {
 		}
 	}
 
-	public Graphics2D alphaMe(Graphics g) {
+	/**
+	 * Returns a Graphics g at half alpha.
+	 * 
+	 * @param g
+	 *            Graphics g
+	 * @return g2d
+	 */
+	private Graphics2D alphaMe(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
 				0.5f));
 		return g2d;
 	}
+	
+	private void checkDrawMoveable(Graphics g, int mousePosX, int mousePosY){
+		if(units[mousePosX/lineSpacing][mousePosY/lineSpacing] != null){
+			Moveable entity = units[mousePosX/lineSpacing][mousePosY/lineSpacing];
+			System.out.println(entity);
+			printMovesLeft(g, entity);
+		}
+	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		printTiles(g);
-		alphaMe(g).drawImage(res.moveBox, 0, 0, null);
+		printUnits(g);
+		checkDrawMoveable(g,mousePos.x, mousePos.y);
 	}
 
 }
