@@ -15,7 +15,7 @@ public class GameTable extends JPanel implements ActionListener, ItemListener,
 	JButton testB;
 	JScrollPane sPane;
 
-	int width = 1000;
+	int width = 1024;
 	int height = 600;
 
 	public GameTable() {
@@ -28,7 +28,7 @@ public class GameTable extends JPanel implements ActionListener, ItemListener,
 
 		setLayout(new BorderLayout());
 
-		gBoard = new GameBoard(width, height-200);
+		gBoard = new GameBoard(width, 384);
 		gBoard.addMouseListener(this);
 		add(gBoard, BorderLayout.NORTH);
 

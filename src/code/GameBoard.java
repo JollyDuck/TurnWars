@@ -14,7 +14,7 @@ public class GameBoard extends JPanel {
 	private static final long serialVersionUID = 1L;
 	int width, height;
 	int lineSpacing;
-	public static char[][] box;
+	public static Tile[][] box;
 	public static final char X = 'X';
 	public static final char O = 'O';
 	public static final char NONE = ' ';
@@ -25,23 +25,30 @@ public class GameBoard extends JPanel {
 
 		this.width = width;
 		this.height = height;
-		lineSpacing = 30;
-		
-		loadImages();
+		lineSpacing = 32;
 
-		box = new char[width / lineSpacing][height / lineSpacing];
+		loadImages();
+		// box is an array that stores the positions of the units.
+		box = new Tile[width / lineSpacing][height / lineSpacing];
 		for (int x = 0; x < box.length; x++) {
 			for (int y = 0; y < box[x].length; y++) {
-				box[x][y] = NONE;
+				double i = Math.random();
+				System.out.println(i);
+				Tile r;
+				if (i > 0.5) {
+					r = new EmptyTile();
+				} else
+					r = new TreeTile();
+				box[x][y] = r;
 			}
 		}
-		box[2][0] = X;
+		box[2][0] = new RockTile();
 		setPreferredSize(new Dimension(width, height));
 		setBackground(Color.WHITE);
 
 	}
-	
-	public void loadImages(){
+
+	public void loadImages() {
 		// Start
 		java.net.URL imageURL = GameBoard.class
 				.getResource("/res/miw_sprites.png");
@@ -53,7 +60,17 @@ public class GameBoard extends JPanel {
 				System.out.println("fail");
 			}
 		}
-		
+
+	}
+
+	public void printBox(Graphics g) {
+		for (int x = 0; x < box.length; x++) {
+			for (int y = 0; y < box[x].length; y++) {
+				g.drawString(Character.toString(box[x][y]),
+						(x * lineSpacing) + 10, (y * lineSpacing) + 10);
+
+			}
+		}
 	}
 
 	public void paintComponent(Graphics g) {
@@ -64,6 +81,7 @@ public class GameBoard extends JPanel {
 			g.drawLine(0, x, width, x);
 		}
 		g.drawImage(sprites, 50, 50, null);
+		printBox(g);
 
 	}
 
