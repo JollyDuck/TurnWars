@@ -55,7 +55,6 @@ public class GameTable extends JPanel implements ActionListener, ItemListener,
 
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-
 		if (o == testB) {
 			tArea.setText("testing 123");
 			return;

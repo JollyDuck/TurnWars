@@ -74,15 +74,18 @@ public class GameBoard extends JPanel {
 	}
 
 	private void printMovesLeft(Graphics g, Moveable entity) {
-		int width = entity.currentMove;
-		Tile[][] movesLeft = new Tile[width * 2][width * 2];
-		for (int x = 0; x < width*2; x++) {
-			for (int y = 0; y < width*2; y++) {
-				System.out.println("yuop");
+		int max = entity.currentMove * 2 + 1;
+		Tile[][] movesLeft = new Tile[max][max];
+		for (int x = 0; x < max; x++) {
+			for (int y = 0; y < max; y++) {
+
 				MoveLeftTile r = new MoveLeftTile();
 				movesLeft[x][y] = r;
 				r.setMyImage(res.moveBox);
-				r.setPosition(x, y, lineSpacing);
+				r.setPosition((entity.myPosition.x / lineSpacing)
+						- entity.currentMove + x,
+						(entity.myPosition.y / lineSpacing)
+								- entity.currentMove + y, lineSpacing);
 				if (movesLeft[x][y] != null)
 					movesLeft[x][y].printMe(alphaMe(g), topLeft);
 			}
@@ -129,10 +132,12 @@ public class GameBoard extends JPanel {
 				0.5f));
 		return g2d;
 	}
-	
-	private void checkDrawMoveable(Graphics g, int mousePosX, int mousePosY){
-		if(units[mousePosX/lineSpacing][mousePosY/lineSpacing] != null){
-			Moveable entity = units[mousePosX/lineSpacing][mousePosY/lineSpacing];
+
+	private void checkDrawMoveable(Graphics g, int mousePosX, int mousePosY) {
+		if (units[(mousePosX - topLeft.x) / lineSpacing][(mousePosY - topLeft.y)
+				/ lineSpacing] != null) {
+			Moveable entity = units[(mousePosX - topLeft.x) / lineSpacing][(mousePosY - topLeft.y)
+					/ lineSpacing];
 			System.out.println(entity);
 			printMovesLeft(g, entity);
 		}
@@ -142,7 +147,7 @@ public class GameBoard extends JPanel {
 		super.paintComponent(g);
 		printTiles(g);
 		printUnits(g);
-		checkDrawMoveable(g,mousePos.x, mousePos.y);
+		checkDrawMoveable(g, mousePos.x, mousePos.y);
 	}
 
 }
