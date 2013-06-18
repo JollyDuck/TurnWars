@@ -11,6 +11,12 @@ public abstract class Tile {
 	protected Image tileImage;
 	protected Point tilePosition;
 	protected int tileType;
+	
+	
+	public void setPosition(int x, int y, int lineSpacing){
+		tilePosition.x = x*lineSpacing;
+		tilePosition.y = y*lineSpacing;
+	}
 
 	/*
 	 * Tile type 1: grass; Tile type 2: tree; Tile type 3: rocks;
@@ -26,8 +32,8 @@ public abstract class Tile {
 	 * @author James
 	 */
 	
-	public void print(Graphics g){
-		
+	public void printTile(Graphics g){
+		g.drawImage(tileImage, tilePosition.x, tilePosition.y, null);
 	}
 	
 	public void tileImage(String s) {

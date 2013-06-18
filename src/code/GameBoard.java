@@ -27,7 +27,6 @@ public class GameBoard extends JPanel {
 		this.height = height;
 		lineSpacing = 32;
 
-		loadImages();
 		// box is an array that stores the positions of the units.
 		box = new Tile[width / lineSpacing][height / lineSpacing];
 		for (int x = 0; x < box.length; x++) {
@@ -40,9 +39,11 @@ public class GameBoard extends JPanel {
 				} else
 					r = new TreeTile();
 				box[x][y] = r;
+				r.setPosition(x, y, lineSpacing);
 			}
 		}
 		box[2][0] = new RockTile();
+		box[2][0].setPosition(0, 2, lineSpacing);
 		setPreferredSize(new Dimension(width, height));
 		setBackground(Color.WHITE);
 
@@ -62,13 +63,11 @@ public class GameBoard extends JPanel {
 		}
 
 	}
-
-	public void printBox(Graphics g) {
+	
+	private void printTiles(Graphics g){
 		for (int x = 0; x < box.length; x++) {
 			for (int y = 0; y < box[x].length; y++) {
-				g.drawString(Character.toString(box[x][y]),
-						(x * lineSpacing) + 10, (y * lineSpacing) + 10);
-
+				box[x][y].printTile(g);
 			}
 		}
 	}
@@ -79,10 +78,8 @@ public class GameBoard extends JPanel {
 		for (int x = lineSpacing; x <= width; x = x + lineSpacing) {
 			g.drawLine(x, 0, x, height);
 			g.drawLine(0, x, width, x);
+			printTiles(g);
 		}
-		g.drawImage(sprites, 50, 50, null);
-		printBox(g);
-
 	}
 
 }
