@@ -1,12 +1,14 @@
 package code;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
 public class ResHandle {
-	public Image summerGrass, summerRock, summerTree, blueTank, redTank;
+	public Image summerGrass, summerRock, summerTree, blueTank, redTank,
+			moveBox;
 
 	public ResHandle() {
 		loadImages();
@@ -27,14 +29,14 @@ public class ResHandle {
 	}
 
 	private void loadImages() {
-		//Terrain
+		// Terrain
 		try {
 			summerGrass = ImageIO.read(GameBoard.class
 					.getResource("/res/summerGrass.png"));
 			System.out.println("win loading summerGrass");
 		} catch (IOException e) {
 			System.out.println("fail loading summerGrass");
-		}	
+		}
 		try {
 			summerTree = ImageIO.read(GameBoard.class
 					.getResource("/res/summerTree.png"));
@@ -49,7 +51,17 @@ public class ResHandle {
 		} catch (IOException e) {
 			System.out.println("fail loading summerRock");
 		}
-		//Units
+
+		// Movespace
+		try {
+			moveBox = ImageIO.read(GameBoard.class
+					.getResource("/res/moveLeft.png"));
+			System.out.println("win loading moveLeft");
+		} catch (IOException e) {
+			System.out.println("fail loading moveLeft");
+		}
+
+		// Units
 		try {
 			blueTank = ImageIO.read(GameBoard.class
 					.getResource("/res/blueTank.png"));

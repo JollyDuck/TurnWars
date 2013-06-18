@@ -12,7 +12,7 @@ public class GameTable extends JPanel implements ActionListener, ItemListener,
 	private static final long serialVersionUID = 1L;
 	GameBoard gBoard;
 	JTextArea tArea;
-	JButton testB;
+	JButton testB, leftB, rightB;
 	JScrollPane sPane;
 
 	int width = 1024;
@@ -36,8 +36,14 @@ public class GameTable extends JPanel implements ActionListener, ItemListener,
 		add(controlPanel, BorderLayout.CENTER);
 
 		testB = new JButton("test");
+		rightB = new JButton("scroll right");
+		leftB = new JButton("scroll left");
 		testB.addActionListener(this);
+		rightB.addActionListener(this);
+		leftB.addActionListener(this);
+		controlPanel.add(leftB);
 		controlPanel.add(testB);
+		controlPanel.add(rightB);
 
 		tArea = new JTextArea();
 		tArea.setRows(10);
@@ -53,6 +59,17 @@ public class GameTable extends JPanel implements ActionListener, ItemListener,
 			tArea.setText("testing 123");
 			return;
 		}
+		else if(o == leftB){
+			gBoard.updateTopLeft(4);
+			tArea.setText(tArea.getText() +"\n" + gBoard.topLeft.x);
+			gBoard.repaint();
+		}
+		else if (o == rightB){
+			gBoard.updateTopLeft(6);
+			tArea.setText(tArea.getText() +"\n" + gBoard.topLeft.x);
+			gBoard.repaint();
+		}
+		
 	}
 
 	public void itemStateChanged(ItemEvent e) {
@@ -69,7 +86,7 @@ public class GameTable extends JPanel implements ActionListener, ItemListener,
 		int mouseX = e.getX();
 		int mouseY = e.getY();
 		tArea.setText(tArea.getText() + "\n" + mouseX + " " + mouseY);
-		tArea.setText(tArea.getText() + " contains " + GameBoard.box[mouseX/gBoard.lineSpacing][mouseY/gBoard.lineSpacing]);
+		tArea.setText(tArea.getText() + " contains " + GameBoard.tiles[mouseX/gBoard.lineSpacing][mouseY/gBoard.lineSpacing]);
 		repaint();
 	}
 
