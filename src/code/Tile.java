@@ -2,20 +2,15 @@ package code;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Point;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
-public abstract class Tile {
+public abstract class Tile extends Printable {
 	protected Image tileImage;
-	protected Point tilePosition;
 	protected int tileType;
 	
 	
 	public void setPosition(int x, int y, int lineSpacing){
-		tilePosition.x = x*lineSpacing;
-		tilePosition.y = y*lineSpacing;
+		myPosition.x = x*lineSpacing;
+		myPosition.y = y*lineSpacing;
 	}
 
 	/*
@@ -33,17 +28,11 @@ public abstract class Tile {
 	 */
 	
 	public void printTile(Graphics g){
-		g.drawImage(tileImage, tilePosition.x, tilePosition.y, null);
+		g.drawImage(tileImage, myPosition.x, myPosition.y, null);
 	}
 	
-	public void tileImage(String s) {
-		java.net.URL imageURL = GameBoard.class.getResource(s);
-		try {
-			tileImage = ImageIO.read(imageURL);
-			System.out.println("win loading " + s);
-		} catch (IOException e) {
-			System.out.println("fail loading " + s);
-		}
+	public void tileImage(Image i){
+		tileImage = i;
 	}
 
 	/**

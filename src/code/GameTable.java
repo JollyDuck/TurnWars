@@ -69,7 +69,7 @@ public class GameTable extends JPanel implements ActionListener, ItemListener,
 		int mouseX = e.getX();
 		int mouseY = e.getY();
 		tArea.setText(tArea.getText() + "\n" + mouseX + " " + mouseY);
-		tArea.setText(tArea.getText() + " contains " + gBoard.box[mouseX/gBoard.lineSpacing][mouseY/gBoard.lineSpacing]);
+		tArea.setText(tArea.getText() + " contains " + GameBoard.box[mouseX/gBoard.lineSpacing][mouseY/gBoard.lineSpacing]);
 		repaint();
 	}
 
